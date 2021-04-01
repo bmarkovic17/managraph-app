@@ -15,7 +15,7 @@ import { AddNewInstanceDialogComponent } from '../add-new-instance-dialog/add-ne
 export class ManagraphComponent implements OnInit {
   filter: string = '';
   cards: Card[] = [];
-  memgraphs = timer(0, 1000).pipe(
+  memgraphs = timer(0, 3000).pipe(
     mergeMap(_ => this.managraphService.getMemGraphs()));
 
   constructor(
@@ -48,6 +48,11 @@ export class ManagraphComponent implements OnInit {
 
   public openNewInstanceDialog() {
     const _ = this.dialog.open(AddNewInstanceDialogComponent);
+  }
+
+  public filterChanged(filter: string) {
+    this.cards = this.cards.filter(card =>
+      filter ? card.memgraphInfo.name.includes(filter) || card.memgraphInfo.uri.includes(filter) : true)
   }
 
   private getCols() {

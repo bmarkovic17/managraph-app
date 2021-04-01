@@ -1,14 +1,16 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{ card.memgraphInfo.name }}</mat-card-title>
-        <mat-card-subtitle>{{ card.memgraphInfo.uri }}</mat-card-subtitle>
+        <mat-card-title>{{ memgraphInfo.name }}</mat-card-title>
+        <mat-card-subtitle>{{ memgraphInfo.uri }}</mat-card-subtitle>
 
         <button
             mat-mini-fab
             color="primary"
-            [class]="getMatCardQueryButtonClass(card.memgraphInfo.active)"
-            [disabled]="!card.memgraphInfo.active"
+            [class]="getMatCardQueryButtonClass(memgraphInfo.active)"
+            [disabled]="!memgraphInfo.active"
             aria-label="Run a cypher query"
+            (click)="openQueryDialog()"
+            *ngIf="!isModalDialog"
         >
             <mat-icon>timeline</mat-icon>
         </button>
@@ -17,14 +19,15 @@
             color="primary"
             class="mat-card-button mat-card-button-delete"
             aria-label="Remove instance"
-            (click)="removeMemgraph(card.memgraphInfo.id)"
+            (click)="removeMemgraph(memgraphInfo.id)"
+            *ngIf="!isModalDialog"
         >
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-header>
 
     <mat-card-content>
-        <mat-form-field appearance="standard" *ngFor="let property of card.memgraphInfo.storageInfo | keyvalue"
+        <mat-form-field appearance="standard" *ngFor="let property of memgraphInfo.storageInfo | keyvalue"
             class="card-content-item">
             <mat-label>{{ getLabelForStorageTypeKey(property.key) }}</mat-label>
             <input matInput readonly [value]="getValueWithMeasurementUnit(property.key, property.value)">

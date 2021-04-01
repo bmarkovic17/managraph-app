@@ -12,9 +12,15 @@ export class ManagraphService {
   getMemGraphs = () =>
     this.http.get<MemgraphInfo[]>(`${environment.baseUrl}/managraph`);
 
+  getMemGraph = (id: string) =>
+    this.http.get<MemgraphInfo>(`${environment.baseUrl}/managraph/${id}`);
+
   removeMemgraph = (id: string) =>
     this.http.delete(`${environment.baseUrl}/managraph/${id}`);
 
   addMemgraph = (name: string, uri: string) =>
     this.http.post(`${environment.baseUrl}/managraph`, { name: name, uri: uri });
+
+  runCypherQuery = (id: string, query: string) =>
+    this.http.post(`${environment.baseUrl}/managraph/${id}`, { query: query });
 }

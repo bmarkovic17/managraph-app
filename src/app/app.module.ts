@@ -18,13 +18,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MemgraphComponent } from './memgraph/memgraph.component';
 import { AddNewInstanceDialogComponent } from './add-new-instance-dialog/add-new-instance-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { MemgraphWithQueryComponent } from './memgraph-with-query/memgraph-with-query.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ManagraphComponent,
     MemgraphComponent,
-    AddNewInstanceDialogComponent
+    AddNewInstanceDialogComponent,
+    MemgraphWithQueryComponent
   ],
   imports: [
     BrowserModule,

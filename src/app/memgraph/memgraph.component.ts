@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MemgraphWithQueryComponent } from '../memgraph-with-query/memgraph-with-query.component';
 import { ManagraphService } from '../services/managraph.service';
-import Card from '../types/card.type';
+import MemgraphInfo from '../types/memgraphInfo.type';
 
 @Component({
   selector: 'app-memgraph',
@@ -9,29 +11,28 @@ import Card from '../types/card.type';
 })
 export class MemgraphComponent {
   @Input()
-  card: Card;
-
-  constructor(private managraphService: ManagraphService) {
-    this.card = {
-      cols: 1,
-      rows: 1,
-      memgraphInfo: {
-        id: '',
-        name: '',
-        uri: '',
-        active: false,
-        storageInfo: {
-          vertexCount: null,
-          edgeCount: null,
-          averageDegree: null,
-          diskUsage: null,
-          memoryUsage: null
-        }
-      }
+  memgraphInfo: MemgraphInfo = {
+    id: '',
+    name: '',
+    uri: '',
+    active: false,
+    storageInfo: {
+      vertexCount: null,
+      edgeCount: null,
+      averageDegree: null,
+      diskUsage: null,
+      memoryUsage: null
     }
-  }
+  };
+  @Input()
+  isModalDialog: boolean = false;
 
-  public removeMemgraph (id: string) {
+  constructor(
+    private managraphService: ManagraphService,
+    public dialog: MatDialog
+  ) { }
+
+  public removeMemgraph(id: string) {
     this.managraphService.removeMemgraph(id).subscribe();
   }
 
@@ -65,5 +66,11 @@ export class MemgraphComponent {
   }
 
   public getMatCardQueryButtonClass = (isActive: boolean) =>
-    `mat-card-button mat-card-button-query ${isActive ? 'connected' : ''}`
+    `mat-card-button mat-card-button-query ${isActive ? 'connected' : ''}`;
+
+  public openQueryDialog = () => {
+    this.dialog.open(MemgraphWithQueryComponent, {
+      data: { memgraphId: this.memgraphInfo.id }
+    });
+  }
 }

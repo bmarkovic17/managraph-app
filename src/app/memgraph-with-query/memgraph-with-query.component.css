@@ -1,0 +1,11 @@
+.query-field {
+    width: calc(100% - 100px);
+}
+
+button {
+    margin-left: 20px;
+}
+
+.result-field {
+    width: 100%;
+}

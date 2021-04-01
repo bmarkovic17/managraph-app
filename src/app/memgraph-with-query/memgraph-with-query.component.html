@@ -1,0 +1,24 @@
+<app-memgraph [memgraphInfo]="memgraphInfo" [isModalDialog]="true" class="dashboard-card"></app-memgraph>
+
+<mat-form-field class="query-field" appearance="standard">
+    <mat-label>Query</mat-label>
+    <input matInput [(ngModel)]="query" [disabled]="!memgraphInfo.active">
+</mat-form-field>
+
+<button mat-flat-button color="warn" [disabled]="!memgraphInfo.active" aria-label="Run cypher query" (click)="runCypherQuery()">
+    Run
+</button>
+
+<mat-form-field class="result-field">
+    <mat-label>Result</mat-label>
+    <textarea matInput readonly rows="4" [(ngModel)]="result"></textarea>
+</mat-form-field>
+
+<button
+    mat-flat-button
+    color="primary"
+    aria-label="Cancel running a cypher query"
+    (click)="cancelRunQuery()"
+>
+    Cancel
+</button>
