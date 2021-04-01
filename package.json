@@ -1,6 +1,22 @@
 {
   "name": "managraph-app",
-  "version": "0.0.0",
+  "description": "Application for managing MemGraph instances",
+  "author": {
+    "name": "Boris Marković",
+    "email": "bmarkovic17@outlook.com"
+  },
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmarkovic17/managraph-app.git"
+  },
+  "keywords": [
+    "managraph",
+    "memgraph",
+    "database",
+    "instance management",
+    "Angular"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,10 +28,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.7",
+    "@angular/cdk": "^11.2.7",
     "@angular/common": "~11.2.7",
     "@angular/compiler": "~11.2.7",
     "@angular/core": "~11.2.7",
     "@angular/forms": "~11.2.7",
+    "@angular/material": "^11.2.7",
     "@angular/platform-browser": "~11.2.7",
     "@angular/platform-browser-dynamic": "~11.2.7",
     "@angular/router": "~11.2.7",
