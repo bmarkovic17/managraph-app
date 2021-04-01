@@ -1,0 +1,35 @@
+<mat-form-field appearance="standard">
+    <mat-label>Instance name</mat-label>
+    <input matInput #name="ngModel" required [(ngModel)]="newInstance.name">
+    <mat-error *ngIf="name.hasError('required')">
+        Instance name is <strong>required</strong>
+    </mat-error>
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+    <mat-label>Instance URI</mat-label>
+    <input matInput #uri="ngModel" required [(ngModel)]="newInstance.uri">
+    <mat-error *ngIf="uri.hasError('required')">
+        Instance URI is <strong>required</strong>
+    </mat-error>
+</mat-form-field>
+
+<button
+    mat-flat-button
+    class="add-new-instance-button"
+    color="basic"
+    aria-label="Add new MemGraph instance"
+    [disabled]="name.invalid || uri.invalid"
+    (click)="addNewInstance()"
+>
+    Add
+</button>
+
+<button
+    mat-flat-button
+    color="primary"
+    aria-label="Cancel adding new MemGraph instance"
+    (click)="cancelNewInstance()"
+>
+    Cancel
+</button>

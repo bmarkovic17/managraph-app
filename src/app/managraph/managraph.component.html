@@ -1,5 +1,17 @@
 <div class="grid-container">
-  <h1 class="mat-h1">ManaGraph dashboard</h1>
+  <h1 class="mat-h1">ManaGraph dashboard
+
+    <button
+      mat-flat-button
+      class="dashboard-button"
+      color="basic"
+      aria-label="Open add new MemGraph instance dialog"
+      (click)="openNewInstanceDialog()"
+    >
+      Add new instance
+    </button>
+  </h1>
+
   <mat-grid-list cols="4" rowHeight="500px">
     <mat-grid-tile *ngFor="let card of cards" [colspan]="card.cols" [rowspan]="card.rows">
       <app-memgraph [card]="card" class="dashboard-card"></app-memgraph>

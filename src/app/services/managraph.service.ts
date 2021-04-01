@@ -14,4 +14,7 @@ export class ManagraphService {
 
   removeMemgraph = (id: string) =>
     this.http.delete(`${environment.baseUrl}/managraph/${id}`);
+
+  addMemgraph = (name: string, uri: string) =>
+    this.http.post(`${environment.baseUrl}/managraph`, { name: name, uri: uri });
 }

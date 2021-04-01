@@ -4,6 +4,8 @@ import { ManagraphService } from '../services/managraph.service';
 import Card from '../types/card.type';
 import { timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { AddNewInstanceDialogComponent } from '../add-new-instance-dialog/add-new-instance-dialog.component';
 
 @Component({
   selector: 'app-managraph',
@@ -12,12 +14,13 @@ import { mergeMap } from 'rxjs/operators';
 })
 export class ManagraphComponent implements OnInit {
   cards: Card[] = [];
-  memgraphs = timer(0, 3000).pipe(
+  memgraphs = timer(0, 1000).pipe(
     mergeMap(_ => this.managraphService.getMemGraphs()));
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private managraphService: ManagraphService) { }
+    private managraphService: ManagraphService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
@@ -37,6 +40,10 @@ export class ManagraphComponent implements OnInit {
           this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }));
       }
     });
+  }
+
+  public openNewInstanceDialog() {
+    const _ = this.dialog.open(AddNewInstanceDialogComponent);
   }
 
   private getCols() {

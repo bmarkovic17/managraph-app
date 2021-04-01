@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ManagraphService } from '../services/managraph.service';
 import Card from '../types/card.type';
 
@@ -7,7 +7,7 @@ import Card from '../types/card.type';
   templateUrl: './memgraph.component.html',
   styleUrls: ['./memgraph.component.css']
 })
-export class MemgraphComponent implements OnInit {
+export class MemgraphComponent {
   @Input()
   card: Card;
 
@@ -29,9 +29,6 @@ export class MemgraphComponent implements OnInit {
         }
       }
     }
-  }
-
-  ngOnInit(): void {
   }
 
   public removeMemgraph (id: string) {

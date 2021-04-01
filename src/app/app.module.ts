@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ManagraphComponent } from './managraph/managraph.component';
-
+import { FormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,13 +14,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MemgraphComponent } from './memgraph/memgraph.component';
+import { AddNewInstanceDialogComponent } from './add-new-instance-dialog/add-new-instance-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ManagraphComponent,
-    MemgraphComponent
+    MemgraphComponent,
+    AddNewInstanceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,9 @@ import { MemgraphComponent } from './memgraph/memgraph.component';
     MatButtonModule,
     MatGridListModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
