@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MemgraphComponent } from './memgraph/memgraph.component';
 import { AddNewInstanceDialogComponent } from './add-new-instance-dialog/add-new-instance-dialog.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AddNewInstanceDialogComponent } from './add-new-instance-dialog/add-new
     MatMenuModule,
     MatIconModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

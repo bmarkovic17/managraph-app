@@ -13,6 +13,7 @@ import { AddNewInstanceDialogComponent } from '../add-new-instance-dialog/add-ne
   styleUrls: ['./managraph.component.css']
 })
 export class ManagraphComponent implements OnInit {
+  filter: string = '';
   cards: Card[] = [];
   memgraphs = timer(0, 1000).pipe(
     mergeMap(_ => this.managraphService.getMemGraphs()));
@@ -36,8 +37,11 @@ export class ManagraphComponent implements OnInit {
       next: memgraphsInfo => {
         this.cards.length = 0;
 
-        memgraphsInfo.forEach(memgraphInfo =>
-          this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }));
+        memgraphsInfo
+          .filter(memgraphInfo =>
+            this.filter ? memgraphInfo.name.includes(this.filter) || memgraphInfo.uri.includes(this.filter) : true)
+          .forEach(memgraphInfo =>
+            this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }));
       }
     });
   }

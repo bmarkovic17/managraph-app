@@ -1,3 +1,11 @@
+h1 span {
+  color: #e91e63;
+}
+
+mat-divider {
+  border-color: #e91e63;
+}
+
 .dashboard-button {
   position: absolute;
   right: 20px;
@@ -13,4 +21,9 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
+}
+
+.filter-field {
+  width: 100%;
+  color: white !important;
 }
