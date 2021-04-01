@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ManagraphService } from '../services/managraph.service';
 import Card from '../types/card.type';
+import { interval } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-managraph',
@@ -10,7 +12,8 @@ import Card from '../types/card.type';
 })
 export class ManagraphComponent implements OnInit {
   cards: Card[] = [];
-  memgraphs = this.managraphService.getMemGraphs();
+  memgraphs = interval(1000).pipe(
+    mergeMap(_ => this.managraphService.getMemGraphs()));
 
   constructor(
     private breakpointObserver: BreakpointObserver,
@@ -27,8 +30,12 @@ export class ManagraphComponent implements OnInit {
       });
 
     this.memgraphs.subscribe({
-      next: memgraphsInfo => memgraphsInfo.forEach(memgraphInfo =>
-        this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }))
+      next: memgraphsInfo => {
+        this.cards.length = 0;
+
+        memgraphsInfo.forEach(memgraphInfo =>
+          this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }));
+      }
     });
   }
 
