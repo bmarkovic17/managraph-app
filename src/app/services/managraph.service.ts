@@ -11,4 +11,7 @@ export class ManagraphService {
 
   getMemGraphs = () =>
     this.http.get<MemgraphInfo[]>(`${environment.baseUrl}/managraph`);
+
+  removeMemgraph = (id: string) =>
+    this.http.delete(`${environment.baseUrl}/managraph/${id}`);
 }

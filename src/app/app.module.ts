@@ -14,11 +14,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MemgraphComponent } from './memgraph/memgraph.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ManagraphComponent
+    ManagraphComponent,
+    MemgraphComponent
   ],
   imports: [
     BrowserModule,

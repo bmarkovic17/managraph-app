@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ManagraphService } from '../services/managraph.service';
 import Card from '../types/card.type';
-import { interval } from 'rxjs';
+import { timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +12,7 @@ import { mergeMap } from 'rxjs/operators';
 })
 export class ManagraphComponent implements OnInit {
   cards: Card[] = [];
-  memgraphs = interval(1000).pipe(
+  memgraphs = timer(0, 3000).pipe(
     mergeMap(_ => this.managraphService.getMemGraphs()));
 
   constructor(
@@ -24,10 +24,10 @@ export class ManagraphComponent implements OnInit {
       Breakpoints.XSmall,
       Breakpoints.Small,
       Breakpoints.Medium,
-      Breakpoints.Large])
-      .subscribe({
-        next: () => this.cards.forEach(card => card.cols = this.getCols())
-      });
+      Breakpoints.Large
+    ]).subscribe({
+      next: () => this.cards.forEach(card => card.cols = this.getCols())
+    });
 
     this.memgraphs.subscribe({
       next: memgraphsInfo => {
@@ -48,35 +48,6 @@ export class ManagraphComponent implements OnInit {
       return 2;
     } else {
       return 1;
-    }
-  }
-
-  public getLabelForStorageTypeKey(key: string) {
-    switch (key) {
-      case 'vertexCount':
-        return 'Vertex count';
-      case 'edgeCount':
-        return 'Edge count';
-      case 'averageDegree':
-        return 'Average degree';
-      case 'memoryUsage':
-        return 'Memory usage';
-      case 'diskUsage':
-        return 'Disk usage';
-      default:
-        return '';
-    }
-  }
-
-  public getValueWithMeasurementUnit(key: string, value: number | null) {
-    switch (key) {
-      case 'memoryUsage':
-      case 'diskUsage':
-        return `${value
-          ? Math.round(value / 1024 / 1024).toString().concat(' MB')
-          : ''}`;
-      default:
-        return value;
     }
   }
 }
