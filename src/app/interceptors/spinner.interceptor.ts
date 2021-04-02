@@ -17,10 +17,8 @@ export class SpinnerInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const useSpinner = !(request.url?.includes('api/v1/managraph') && request.method === 'GET');
 
-    if (useSpinner) {
-      console.log('show');
+    if (useSpinner)
       this.spinnerService.show();
-    }
 
     return next
       .handle(request)
@@ -28,19 +26,13 @@ export class SpinnerInterceptor implements HttpInterceptor {
         tap(
           event => {
             if (event instanceof HttpResponse) {
-              if (useSpinner) {
-                console.log('hide 1');
-
+              if (useSpinner)
                 this.spinnerService.hide();
-              }
             }
           },
           _ => {
-            if (useSpinner) {
-              console.log('hide 2');
-
+            if (useSpinner)
               this.spinnerService.hide();
-            }
           }
         )
       );
