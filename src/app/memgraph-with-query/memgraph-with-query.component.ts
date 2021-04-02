@@ -25,7 +25,7 @@ export class MemgraphWithQueryComponent implements OnInit, OnDestroy {
       memoryUsage: null
     }
   }
-  memgraphInfoSource = timer(0, 3000).pipe(
+  memgraphInfoSource = timer(0, 1000).pipe(
     mergeMap(_ => this.managraphService.getMemGraph(this.data.memgraphId)));
   sourceSubscription: Subscription = new Subscription();
   result: string = '';

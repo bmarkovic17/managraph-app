@@ -20,9 +20,9 @@ export class ManagraphComponent implements OnInit {
   memgraphsInfo: MemgraphInfo[] = [];
   cards: Card[] = [];
 
-  memgraphs = timer(0, 3000).pipe(
+  memgraphs = timer(0, 1000).pipe(
     mergeMap(_ => this.managraphService.getMemGraphs()),
-    retryWhen(errors => errors.pipe(delay(5000))));
+    retryWhen(errors => errors.pipe(delay(3000))));
 
   constructor(
     private breakpointObserver: BreakpointObserver,

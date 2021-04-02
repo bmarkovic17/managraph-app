@@ -9,7 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
-import { ErrorComponent } from './error/error.component';
+import { ErrorComponent } from '../error/error.component';
 
 @Injectable()
 export class HttpErrorHandlingInterceptor implements HttpInterceptor {

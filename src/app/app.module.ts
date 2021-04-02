@@ -19,9 +19,11 @@ import { MemgraphComponent } from './memgraph/memgraph.component';
 import { AddNewInstanceDialogComponent } from './add-new-instance-dialog/add-new-instance-dialog.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MemgraphWithQueryComponent } from './memgraph-with-query/memgraph-with-query.component';
-import { HttpErrorHandlingInterceptor } from './http-error-handling.interceptor';
+import { HttpErrorHandlingInterceptor } from './interceptors/http-error-handling.interceptor';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { ErrorComponent } from './error/error.component';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -48,10 +50,12 @@ import { ErrorComponent } from './error/error.component';
     MatDialogModule,
     FormsModule,
     MatDividerModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatProgressSpinnerModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlingInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorHandlingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
