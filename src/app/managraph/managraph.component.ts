@@ -3,9 +3,10 @@ import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { ManagraphService } from '../services/managraph.service';
 import Card from '../types/card.type';
 import { timer } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, retryWhen, delay } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { AddNewInstanceDialogComponent } from '../add-new-instance-dialog/add-new-instance-dialog.component';
+import MemgraphInfo from '../types/memgraphInfo.type';
 
 @Component({
   selector: 'app-managraph',
@@ -13,15 +14,21 @@ import { AddNewInstanceDialogComponent } from '../add-new-instance-dialog/add-ne
   styleUrls: ['./managraph.component.css']
 })
 export class ManagraphComponent implements OnInit {
+  lastUpdated: string = ' - updated: never';
   filter: string = '';
+
+  memgraphsInfo: MemgraphInfo[] = [];
   cards: Card[] = [];
+
   memgraphs = timer(0, 3000).pipe(
-    mergeMap(_ => this.managraphService.getMemGraphs()));
+    mergeMap(_ => this.managraphService.getMemGraphs()),
+    retryWhen(errors => errors.pipe(delay(5000))));
 
   constructor(
     private breakpointObserver: BreakpointObserver,
     private managraphService: ManagraphService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
@@ -35,27 +42,21 @@ export class ManagraphComponent implements OnInit {
 
     this.memgraphs.subscribe({
       next: memgraphsInfo => {
-        this.cards.length = 0;
+        this.lastUpdated = ' - updated: '.concat(new Date().toUTCString());
+        this.memgraphsInfo = memgraphsInfo;
 
-        memgraphsInfo
-          .filter(memgraphInfo =>
-            this.filter ? memgraphInfo.name.includes(this.filter) || memgraphInfo.uri.includes(this.filter) : true)
-          .forEach(memgraphInfo =>
-            this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }));
+        this.fillCards(this.filter);
       }
     });
-  }
+  };
 
-  public openNewInstanceDialog() {
-    const _ = this.dialog.open(AddNewInstanceDialogComponent);
-  }
+  public openNewInstanceDialog = () =>
+    this.dialog.open(AddNewInstanceDialogComponent);
 
-  public filterChanged(filter: string) {
-    this.cards = this.cards.filter(card =>
-      filter ? card.memgraphInfo.name.includes(filter) || card.memgraphInfo.uri.includes(filter) : true)
-  }
+  public filterChanged = (filter: string | null) =>
+    this.fillCards(filter);
 
-  private getCols() {
+  private getCols = () => {
     if (this.breakpointObserver.isMatched(Breakpoints.XSmall)) {
       return 4;
     } else if (this.breakpointObserver.isMatched(Breakpoints.Small)) {
@@ -65,5 +66,13 @@ export class ManagraphComponent implements OnInit {
     } else {
       return 1;
     }
+  }
+
+  private fillCards = (filter: string | null) => {
+    this.cards.length = 0;
+
+    this.memgraphsInfo
+      .filter(memgraphInfo => filter ? memgraphInfo.name.includes(filter) || memgraphInfo.uri.includes(filter) : true)
+      .forEach(memgraphInfo => this.cards.push({ memgraphInfo: memgraphInfo, cols: this.getCols(), rows: 1 }));
   }
 }

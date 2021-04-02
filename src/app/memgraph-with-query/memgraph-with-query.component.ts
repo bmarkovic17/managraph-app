@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { ManagraphService } from '../services/managraph.service';
 import MemgraphInfo from '../types/memgraphInfo.type';
@@ -10,7 +10,7 @@ import MemgraphInfo from '../types/memgraphInfo.type';
   templateUrl: './memgraph-with-query.component.html',
   styleUrls: ['./memgraph-with-query.component.css']
 })
-export class MemgraphWithQueryComponent implements OnInit {
+export class MemgraphWithQueryComponent implements OnInit, OnDestroy {
   query: string = '';
   memgraphInfo: MemgraphInfo = {
     id: this.data.memgraphId,
@@ -27,21 +27,27 @@ export class MemgraphWithQueryComponent implements OnInit {
   }
   memgraphInfoSource = timer(0, 3000).pipe(
     mergeMap(_ => this.managraphService.getMemGraph(this.data.memgraphId)));
+  sourceSubscription: Subscription = new Subscription();
   result: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<MemgraphWithQueryComponent>,
     private managraphService: ManagraphService,
-    @Inject(MAT_DIALOG_DATA) public data: { memgraphId: string }) { }
+    @Inject(MAT_DIALOG_DATA) public data: { memgraphId: string }
+  ) { }
 
-    ngOnInit(): void {
-      this.memgraphInfoSource.subscribe({
-        next: memgraphInfo => {
-          this.memgraphInfo = memgraphInfo;
-          this.query = memgraphInfo.active ? this.query : '';
-        }
-      });
-    }
+  ngOnInit(): void {
+    this.sourceSubscription = this.memgraphInfoSource.subscribe({
+      next: memgraphInfo => {
+        this.memgraphInfo = memgraphInfo;
+        this.query = memgraphInfo.active ? this.query : '';
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.sourceSubscription.unsubscribe();
+  }
 
   public runCypherQuery = () =>
     this.managraphService.runCypherQuery(this.memgraphInfo.id, this.query)

@@ -13,7 +13,8 @@ export class AddNewInstanceDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AddNewInstanceDialogComponent>,
-    private managraphService: ManagraphService) { }
+    private managraphService: ManagraphService
+  ) { }
 
   public addNewInstance = () => {
     this.managraphService.addMemgraph(this.newInstance.name, this.newInstance.uri)

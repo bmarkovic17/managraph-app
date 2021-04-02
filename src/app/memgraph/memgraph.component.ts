@@ -32,11 +32,10 @@ export class MemgraphComponent {
     public dialog: MatDialog
   ) { }
 
-  public removeMemgraph(id: string) {
+  public removeMemgraph = (id: string) =>
     this.managraphService.removeMemgraph(id).subscribe();
-  }
 
-  public getLabelForStorageTypeKey(key: string) {
+  public getLabelForStorageTypeKey = (key: string) => {
     switch (key) {
       case 'vertexCount':
         return 'Vertex count';
@@ -53,7 +52,7 @@ export class MemgraphComponent {
     }
   }
 
-  public getValueWithMeasurementUnit(key: string, value: number | null) {
+  public getValueWithMeasurementUnit = (key: string, value: number | null) => {
     switch (key) {
       case 'memoryUsage':
       case 'diskUsage':
